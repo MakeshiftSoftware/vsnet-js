@@ -1,0 +1,144 @@
+version: "3"
+services:
+  vsnet-orchestrator:
+    container_name: vsnet-orchestrator
+    build:
+      context: ./vsnet-orchestrator
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./vsnet-orchestrator/src:/app/vsnet-orchestrator/src
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - APP_SECRET=abcde12345
+      - REDIS_DATABASE_URL=redis://vsnet-orchestrator-redis-database:6379
+      - REDIS_DATABASE_PASSWORD=12345
+  vsnet-game:
+    container_name: vsnet-game
+    build:
+      context: ./vsnet-game
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./vsnet-game/src:/app/vsnet-game/src
+    expose:
+      - 3000
+      - 3001
+      - 3002
+      - 3003
+      - 3004
+      - 3005
+      - 3006
+      - 3007
+    ports:
+      - 3000:3000
+      - 3001:3001
+      - 3002:3002
+      - 3003:3003
+      - 3004:3004
+      - 3005:3005
+      - 3006:3006
+      - 3007:3007
+    depends_on:
+      - vsnet-game-redis-database
+      - vsnet-game-redis-pubsub
+      - vsnet-orchestrator
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - APP_SECRET=abcde12345
+      - REDIS_DATABASE_URL=redis://vsnet-game-redis-database:6379
+      - REDIS_PUBSUB_URL=redis://vsnet-game-redis-pubsub:6379
+  vsnet-social:
+    container_name: vsnet-social
+    build:
+      context: ./vsnet-social
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./vsnet-social/src:/app/vsnet-social/src
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    depends_on:
+      - vsnet-social-redis-pubsub
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - APP_SECRET=abcde12345
+      - REDIS_PUBSUB_URL=redis://vsnet-social-redis-pubsub:6379
+  vsnet-matchmaker:
+    container_name: vsnet-matchmaker
+    build:
+      context: ./vsnet-matchmaker
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./vsnet-matchmaker/src:/app/vsnet-matchmaker/src
+    expose:
+      - 3001
+    ports:
+      - 3001:3001
+    depends_on:
+      - vsnet-matchmaker-redis-database
+      - vsnet-matchmaker-redis-pubsub
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - APP_SECRET=abcde12345
+      - REDIS_DATABASE_URL=redis://vsnet-matchmaker-redis-database:6379
+      - REDIS_PUBSUB_URL=redis://vsnet-matchmaker-redis-pubsub:6379
+  vsnet-user-service:
+    container_name: vsnet-user-service
+    build:
+      context: ./vsnet-user-service
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./vsnet-user-service/src:/app/vsnet-user-service/src
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    depends_on:
+      - vsnset-user-postgres
+    environment:
+      - NODE_ENV=development
+      - PORT=8080
+      - APP_SECRET=abcde12345
+      - DATABASE_URL=postgres://vsnet@vsnet-user-postgres/users
+  vsnet-orchestrator-redis-database:
+    container_name: vsnet-orchestrator-redis-database
+    image: redis
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+  vsnet-social-redis-pubsub:
+    container_name: vsnet-social-redis-pubsub
+    image: redis
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+  vsnet-matchmaker-redis-database:
+    container_name: vsnet-matchmaker-redis-database
+    image: redis
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+  vsnet-matchmaker-redis-pubsub:
+    container_name: vsnet-matchmaker-redis-pubsub
+    image: redis
+    expose:
+      - 6379
+    ports:
+      - 6379:6379
+  vsnet-user-postgres:
+    container_name: vsnet-user-postgres
+    image: postgres:10.2-alpine
+    environment:
+      POSTGRES_USER: vsnet
+      POSTGRES_DB: users
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
