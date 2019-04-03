@@ -1,7 +1,8 @@
+const Redis = require('ioredis');
 const WebsocketServer = require('vsnet-sockets');
 const { app, server } = require('paige-app-common');
 
-const { REDIS_PUBSUB_URL, REDIS_PUBSUB_PASSWORD } = process.env;
+const { REDIS_DATABASE_URL, REDIS_DATABASE_PASSWORD } = process.env;
 
 server({
   app: app({
@@ -10,10 +11,10 @@ server({
   beforeStart: server =>
     WebsocketServer({
       server,
-      pubsub: {
-        url: REDIS_PUBSUB_URL,
-        password: REDIS_PUBSUB_PASSWORD,
-        channel: 'global',
+      extensions: {
+        redis: new Redis(REDIS_DATABASE_URL, {
+          password: REDIS_DATABASE_PASSWORD,
+        }),
       },
     }),
 });

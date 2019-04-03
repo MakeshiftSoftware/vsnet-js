@@ -11,6 +11,8 @@
     "clean": "rm -rf node_modules && rm -f yarn.lock && yarn cache clean && yarn"
   },
   "dependencies": {
+    "express": "^4.16.4",
+    "ioredis": "^4.9.0",
     "paige-app-common": "^1.0.1"
   },
   "devDependencies": {

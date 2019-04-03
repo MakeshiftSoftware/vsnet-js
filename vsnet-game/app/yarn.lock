@@ -19,9 +19,9 @@
     js-tokens "^4.0.0"
 
 "@babel/polyfill@^7.0.0":
-  version "7.4.0"
-  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.4.0.tgz#90f9d68ae34ac42ab4b4aa03151848f536960218"
-  integrity sha512-bVsjsrtsDflIHp5I6caaAa2V25Kzn50HKPL6g3X0P0ni1ks+58cPB8Mz6AOKVuRPgaVdq/OwEUc/1vKqX+Mo4A==
+  version "7.4.3"
+  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.4.3.tgz#332dc6f57b718017c3a8b37b4eea8aa6eeac1187"
+  integrity sha512-rkv8WIvJshA5Ev8iNMGgz5WZkRtgtiPexiT7w5qevGTuT7ZBfM3de9ox1y9JR5/OXb/sWGBbWlHNa7vQKqku3Q==
   dependencies:
     core-js "^2.6.5"
     regenerator-runtime "^0.13.2"
@@ -425,7 +425,12 @@ combined-stream@^1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
-commander@^2.19.0, commander@~2.19.0:
+commander@^2.19.0:
+  version "2.20.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
+  integrity sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
+
+commander@~2.19.0:
   version "2.19.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
   integrity sha512-6tvAOO+D6OENvRAh524Dh9jcfKTYDQAqvqezbCW82xj5X0pSrcpxtvRKHLG0yBY6SD7PSDrJaj+0AiOcKVd1Xg==
@@ -2355,9 +2360,9 @@ object.pick@^1.2.0, object.pick@^1.3.0:
     isobject "^3.0.1"
 
 objection@^1.6.6:
-  version "1.6.6"
-  resolved "https://registry.yarnpkg.com/objection/-/objection-1.6.6.tgz#e819459cf810135e2de5afacb958cdf237f94d40"
-  integrity sha512-CPhKNGuTGqwe5nn+tGhxsilvRxN/RAjH1k9BGXi148g3/UjhtRKM8Z/YvZvGoOQG45A7Qnss9BeBlmnhiejF2w==
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/objection/-/objection-1.6.7.tgz#ee14d07eb25bab422fb49e76fecebf7c47995eaf"
+  integrity sha512-Nqqi8SCcVPzJUSOsHA1VjEy7wFpNAAnNfKN2ukUzq1d9LyLnlyKXHhK7JVeODDm7SVG4/Aqa9xuTfZPVcQa9Eg==
   dependencies:
     ajv "^6.1.1"
     bluebird "^3.5.3"
@@ -3537,10 +3542,10 @@ vary@^1, vary@~1.1.2:
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   integrity sha1-IpnwLG3tMNSllhsLn3RSShj2NPw=
 
-vsnet-sockets@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/vsnet-sockets/-/vsnet-sockets-1.0.0.tgz#548e4f4d7a4e2c797da6e2c37b73264760a57d94"
-  integrity sha512-8wzQfRCczkwzsAKGGDQ/A9twP92FL5hhLAFsBEeOJN3iT94fgQgA2dTRVMys3mUaloPcyfmtNkysWpy5FtwJMg==
+vsnet-sockets@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/vsnet-sockets/-/vsnet-sockets-1.0.10.tgz#982e770e16faceaa0d3bfbdad60b5429a5764fac"
+  integrity sha512-XrLAtzg9cJU+JQZtPN64qoiSd9oMl+oaNikMBTNfBboi51wYmwCL8/EfoVn6UGsrgZEudCTyMgbDFLFLDV2G/w==
   dependencies:
     ioredis "^4.9.0"
     jsonwebtoken "^8.5.1"
