@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matchmaker-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matchmaker-redis
+  template:
+    metadata:
+      labels:
+        app: matchmaker-redis
+    spec:
+      containers:
+      - name: matchmaker-redis
+        image: redis
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: matchmaker-redis
+  labels:
+    app: matchmaker-redis
+spec:
+  type: ClusterIP
+  selector:
+    app: matchmaker-redis
+  ports:
+  - port: 6379
+    targetPort: 6379

@@ -1,0 +1,7 @@
+# example
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vsnet
+data:
+  foo: bar

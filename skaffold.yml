@@ -1,0 +1,34 @@
+# skaffold.yml
+apiVersion: skaffold/v1beta7
+kind: Config
+build:
+  local:
+    push: false
+  artifacts:
+  - image: api
+    context: api
+    sync:
+      '***/*.js': .
+    docker:
+      dockerfile: Dockerfile.dev
+  - image: orchestrator
+    context: orchestrator
+    sync:
+      '***/*.js': .
+    docker:
+      dockerfile: Dockerfile.dev
+  - image: matchmaker
+    context: matchmaker
+    sync:
+      '***/*.js': .
+    docker:
+      dockerfile: Dockerfile.dev
+deploy:
+  kubectl:
+    manifests:
+    - api/kubernetes/service.yml
+    - api/kubernetes/deployment.yml
+    - orchestrator/kubernetes/service.yml
+    - orchestrator/kubernetes/deployment.yml
+    - matchmaker/kubernetes/service.yml
+    - matchmaker/kubernetes/deployment.yml

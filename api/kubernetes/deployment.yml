@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      generateName: "api-"
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: api
+        ports:
+        - containerPort: 3000
+        env:
+          - name: APP_NAME
+            value: "api"
+          - name: SERVER_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.generateName
+          - name: PORT
+            value: "3000"
+          - name: APP_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: vsnet
+                key: appSecret
+          - name: DATABASE_URL
+            valueFrom:
+              secretKeyRef:
+                name: vsnet
+                key: databaseUrl

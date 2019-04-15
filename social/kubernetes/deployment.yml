@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: social
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: social
+  template:
+    metadata:
+      generateName: "social-"
+      labels:
+        app: social
+    spec:
+      containers:
+      - name: social
+        image: social
+        ports:
+        - containerPort: 3001
+        env:
+          - name: APP_NAME
+            value: "social"
+          - name: SERVER_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.generateName
+          - name: PORT
+            value: "3001"
+          - name: REDIS_STORE
+            value: social-redis-store:6379
+          - name: REDIS_PUBSUB
+            value: social-redis-pubsub:6379
+          - name: APP_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: vsnet
+                key: appSecret

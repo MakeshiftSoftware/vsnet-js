@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: social-redis-pubsub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: social-redis-pubsub
+  template:
+    metadata:
+      labels:
+        app: social-redis-pubsub
+    spec:
+      containers:
+      - name: social-redis-pubsub
+        image: redis
+        ports:
+        - containerPort: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: social-redis-pubsub
+  labels:
+    app: social-redis-pubsub
+spec:
+  type: ClusterIP
+  selector:
+    app: social-redis-pubsub
+  ports:
+  - port: 6379
+    targetPort: 6379

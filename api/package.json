@@ -1,0 +1,32 @@
+{
+  "name": "vsnet-api",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "yarn migrate && yarn seed && nodemon src/app.js",
+    "prod": "node src/app.js",
+    "lint": "node_modules/.bin/eslint src/**",
+    "clean": "rm -rf node_modules && rm -f yarn.lock && yarn cache clean && yarn",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "node_modules/.bin/knex migrate:latest --knexfile=src/db-config.js",
+    "seed": "node_modules/.bin/knex seed:run --knexfile=src/db-config.js"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "knex": "^0.16.3",
+    "pg": "^7.9.0",
+    "vsnet-common": "^1.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.3",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "prettier": "^1.16.4"
+  }
+}

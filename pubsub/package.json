@@ -1,0 +1,32 @@
+{
+  "name": "vsnet-pubsub",
+  "version": "1.0.10",
+  "main": "src/index.js",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=9.0.0"
+  },
+  "scripts": {
+    "lint": "node_modules/.bin/eslint src/**",
+    "clean": "rm -rf node_modules && rm -f yarn.lock && yarn cache clean && yarn",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "query-string": "^6.4.2",
+    "ws": "^6.2.1"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.1",
+    "utf-8-validate": "^5.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.3",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "prettier": "^1.16.4"
+  }
+}
