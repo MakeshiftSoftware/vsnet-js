@@ -14,7 +14,6 @@ class PubsubServer {
    *
    * @param {Object} options Configuration options
    * @param {http.Server} options.server A pre-created HTTP/S server to use
-   * @param {Object} A configuration to use for pubsub
    * @param {Redis} options.publish A redis instance to use for pubsub publish
    * @param {Redis} options.subscribe A redis instance to use for pubsub subscribe
    * @param {Redis} options.clientServerMap A redis instance that maps client id to server name
