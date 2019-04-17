@@ -5,26 +5,24 @@ const jwt = require('jsonwebtoken');
 
 function noop() {}
 
-/**
- * Class representing a WebSocket server.
- */
 class WebsocketServer {
   /**
-   * Create a `WebsocketServer` instance.
+   * Create a WebsocketServer instance.
    *
    * @param {Object} options Configuration options
    * @param {http.Server} options.server A pre-created HTTP/S server to use
    * @param {String} options.secret Secret used to verify clients
-   * @param {Number} options.pingInterval How often to perform client healthchecking
-   * @param {Boolean} options.timestamps Add timestamps to messages
+   * @param {Function} options.authenticate Optional authentication function to use
+   *    for verifying clients
+   * @param {Number} options.healthcheckInterval How often to perform client healthchecking
    */
   constructor(options) {
     options = Object.assign(
       {
         server: null,
         secret: null,
-        pingInterval: 30000,
-        timestamps: true,
+        authenticate: null,
+        healthcheckInterval: 30,
       },
       options,
     );
@@ -33,8 +31,8 @@ class WebsocketServer {
       throw new TypeError('"server" option must be specified');
     }
 
-    if (!options.secret) {
-      throw new TypeError('"secret" option must be specified');
+    if (!options.authenticate && !options.secret) {
+      throw new TypeError('"secret" option must be specified if no authenticate function is given');
     }
 
     //
@@ -42,22 +40,7 @@ class WebsocketServer {
     //
     const wssOptions = {
       server: options.server,
-      verifyClient: (info, cb) => {
-        const token = qs.parse(url.URL(info.req.url).search).token;
-
-        if (!token) {
-          return cb(false);
-        }
-
-        jwt.verify(token, options.secret, (err, decoded) => {
-          if (err) {
-            cb(false);
-          } else {
-            info.req.user = decoded;
-            cb(true);
-          }
-        });
-      },
+      verifyClient: options.authenticate ? options.authenticate : authenticate(options.secret),
     };
 
     //
@@ -90,7 +73,7 @@ class WebsocketServer {
           socket.ping(noop);
         }
       }
-    }, options.pingInterval);
+    }, options.healthcheckInterval * 1000);
   }
 
   /**
@@ -136,5 +119,22 @@ class WebsocketServer {
     // shared server, and if it is a realtime game or turn based
   }
 }
+
+const authenticate = secret => (info, cb) => {
+  const token = qs.parse(url.URL(info.req.url).search).token;
+
+  if (!token) {
+    return cb(false);
+  }
+
+  jwt.verify(token, secret, (err, decoded) => {
+    if (err) {
+      cb(false);
+    } else {
+      info.req.user = decoded;
+      cb(true);
+    }
+  });
+};
 
 module.exports = WebsocketServer;

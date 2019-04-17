@@ -5,12 +5,9 @@ const jwt = require('jsonwebtoken');
 
 function noop() {}
 
-/**
- * Class representing a Pubsub server.
- */
 class PubsubServer {
   /**
-   * Create a `PubsubServer` instance.
+   * Create a PubsubServer instance.
    *
    * @param {Object} options Configuration options
    * @param {http.Server} options.server A pre-created HTTP/S server to use

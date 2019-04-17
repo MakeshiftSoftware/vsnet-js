@@ -2,7 +2,7 @@ const {
   crypto: { compare, authToken },
   errors: { UnauthorizedError },
 } = require('vsnet-common');
-const db = require('../db');
+const db = require('./db');
 
 module.exports = async (req, res, next) => {
   try {

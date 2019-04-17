@@ -2,21 +2,21 @@ const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const { APP_SECRET } = process.env;
 const ROUNDS = 10;
 
 /**
  * Generate auth token.
  *
- * @param {Object} user - User object
+ * @param {Object} user User object
+ * @param {String} secret Secret for signing
  */
-const authToken = user => {
+const authToken = (user, secret) => {
   const token = jwt.sign(
     {
       id: user.id,
       username: user.username,
     },
-    APP_SECRET,
+    secret,
   );
 
   return `JWT ${token}`;
@@ -25,7 +25,7 @@ const authToken = user => {
 /**
  * Generate a random token for resetting account information.
  *
- * @param {int} length - Token length
+ * @param {Number} length Token length
  */
 const resetToken = (length = 32) =>
   new Promise((resolve, reject) => {

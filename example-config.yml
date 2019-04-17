@@ -1,0 +1,10 @@
+database:
+  address:
+    - "root@localhost:26257"
+    - "another"
+  host: "localhost"
+  pool_min: 2
+  pool_max: 10
+game:
+  rooms: true
+  tick_rate: 20

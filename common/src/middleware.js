@@ -1,15 +1,13 @@
 const jwt = require('jsonwebtoken');
 const { BadRequestError, UnauthorizedError } = require('./errors');
 
-const { APP_SECRET } = process.env;
-
-const optionalAuth = (req, res, next) => {
+const optionalAuth = secret => (req, res, next) => {
   const token = req.headers.Authorization;
 
   if (!token) {
     next();
   } else {
-    jwt.verify(token, APP_SECRET, (err, decoded) => {
+    jwt.verify(token, secret, (err, decoded) => {
       if (decoded) {
         req.user = decoded;
       }
@@ -19,14 +17,14 @@ const optionalAuth = (req, res, next) => {
   }
 };
 
-const requireAuth = (req, res, next) => {
+const requireAuth = secret => (req, res, next) => {
   const token = req.headers.Authorization;
 
   if (!token) {
     throw new UnauthorizedError();
   }
 
-  jwt.verify(token, APP_SECRET, (err, decoded) => {
+  jwt.verify(token, secret, (err, decoded) => {
     if (decoded) {
       req.user = decoded;
       next();

@@ -3,7 +3,8 @@ const {
   utils: { getSharedProperties },
   crypto: { encrypt, authToken },
 } = require('vsnet-common');
-const db = require('../db');
+const db = require('./db');
+const { DB_ERROR_UNIQUE_VIOLATION } = require('./constants');
 
 module.exports = async (req, res, next) => {
   try {
@@ -23,8 +24,8 @@ module.exports = async (req, res, next) => {
         token: authToken(newUser),
       });
     } catch (e) {
-      // handle Postgres unique constraint violation.
-      if (e.code === '23505') {
+      // handle unique constraint violation.
+      if (e.code === DB_ERROR_UNIQUE_VIOLATION) {
         const existingUsers = await db('users')
           .select('username', 'email')
           .where({ username: req.body.username })

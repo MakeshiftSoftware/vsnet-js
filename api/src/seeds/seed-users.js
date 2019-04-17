@@ -1,6 +1,6 @@
 const {
   crypto: { encryptSync },
-} = require('paige-app-common');
+} = require('vsnet-common');
 
 exports.seed = knex =>
   knex('users')

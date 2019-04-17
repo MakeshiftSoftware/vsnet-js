@@ -4,12 +4,6 @@ const os = require('os');
 const cluster = require('cluster');
 const logger = require('./logger');
 
-const { PORT } = process.env;
-
-if (!PORT) {
-  throw new Error('environment variable PORT must be set');
-}
-
 const start = async options => {
   const { port } = process.env;
 
@@ -74,11 +68,9 @@ module.exports = options => {
         logger.error(`Worker has died: ${worker.process.pid}`);
         logger.info('Spawning new worker');
 
-        //
         // Get the port that is now missing and create new worker
         // with that port. Also, delete old pidToPort mapping and
         // add the new one.
-        //
         const port = pidToPort[worker.process.pid];
         delete pidToPort[worker.process.pid];
 
@@ -91,7 +83,7 @@ module.exports = options => {
       logger.info(`Forked new worker with pid ${worker.process.pid}`);
     });
 
-    const basePort = Number.parseInt(PORT, 10);
+    const basePort = Number.parseInt(options.port, 10);
 
     for (let i = 0; i < os.cpus().length; ++i) {
       const portAdd = options.sharePort ? 0 : i;
