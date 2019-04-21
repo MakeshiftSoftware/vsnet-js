@@ -1,7 +1,4 @@
-const {
-  crypto: { compare, authToken },
-  errors: { UnauthorizedError },
-} = require('vsnet-common');
+const { compare, authToken } = require('vsnet-auth');
 const db = require('./db');
 
 module.exports = async (req, res, next) => {
@@ -12,13 +9,13 @@ module.exports = async (req, res, next) => {
       .first();
 
     if (!user) {
-      return new UnauthorizedError();
+      return res.sendStatus(401);
     }
 
     const match = await compare(req.body.password, user.password);
 
     if (!match) {
-      return new UnauthorizedError();
+      return res.sendStatus(401);
     }
 
     delete user.password;

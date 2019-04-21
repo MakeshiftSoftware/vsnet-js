@@ -1,24 +1,20 @@
 {
-  "name": "vsnet-game",
-  "version": "1.0.0",
+  "name": "vsnet-pubsub",
+  "version": "1.0.10",
+  "main": "src/index.js",
   "license": "UNLICENSED",
   "engines": {
-    "node": ">=9.0.0"
+    "node": ">=10.15.3"
   },
   "scripts": {
-    "dev": "nodemon --watch src ./src/app.js",
-    "prod": "node src/app.js",
     "lint": "node_modules/.bin/eslint src/**",
-    "clean": "rm -rf node_modules && rm -f yarn.lock && yarn cache clean && yarn"
+    "clean": "rm -rf node_modules && rm -f yarn.lock && yarn cache clean && yarn",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "ip": "^1.1.5",
+    "ioredis": "^4.9.0",
     "jsonwebtoken": "^8.5.1",
     "query-string": "^6.4.2",
-    "request": "^2.88.0",
-    "request-promise": "^4.2.4",
-    "vsnet-common": "^1.0.11",
-    "vsnet-sockets": "^1.0.10",
     "ws": "^6.2.1"
   },
   "devDependencies": {

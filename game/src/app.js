@@ -1,10 +1,10 @@
 const ip = require('ip');
 const request = require('request-promise');
-const WebsocketServer = require('vsnet-sockets');
 const { app, server } = require('vsnet-common');
+const WebsocketServer = require('./socket');
 const { DEFAULT_REGISTER_START_DELAY, DEFAULT_REGISTER_RETRY_DELAY } = require('./constants');
 
-const { APP_SECRET, SERVER_NAME, ORCHESTRATOR_SERVICE } = process.env;
+const { SERVER_KEY, SERVER_NAME, ORCHESTRATOR_SERVICE } = process.env;
 
 const REGISTER_START_DELAY = process.env.REGISTER_START_DELAY
   ? parseInt(process.env.REGISTER_START_DELAY, 10) * 1000
@@ -35,7 +35,7 @@ server({
   beforeStart: server =>
     new WebsocketServer({
       server,
-      secret: APP_SECRET,
+      serverKey: SERVER_KEY,
     }),
   afterStart: async server => {
     const serverInfo = {

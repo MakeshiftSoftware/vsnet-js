@@ -1,18 +1,16 @@
-const PubsubServer = require('vsnet-pubsub');
 const { app, server } = require('vsnet-common');
-const { publish, subscribe, clientServerMap } = require('./redis');
+const PubsubServer = require('vsnet-pubsub');
 
-const { APP_SECRET, SERVER_NAME } = process.env;
+const { SERVER_KEY, SERVER_NAME, REDIS_PUBSUB, REDIS_SESSIONS } = process.env;
 
 server({
   app: app(),
   beforeStart: server =>
     new PubsubServer({
       server,
-      publish,
-      subscribe,
-      clientServerMap,
+      pubsub: REDIS_PUBSUB,
+      sessions: REDIS_SESSIONS,
       channel: SERVER_NAME,
-      secret: APP_SECRET,
+      serverKey: SERVER_KEY,
     }),
 });

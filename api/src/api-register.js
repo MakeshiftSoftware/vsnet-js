@@ -1,16 +1,13 @@
-const {
-  errors: { UniqueViolationError },
-  utils: { getSharedProperties },
-  crypto: { encrypt, authToken },
-} = require('vsnet-common');
+const { encrypt, authToken } = require('vsnet-auth');
+const { getSharedProperties } = require('vsnet-utils');
 const db = require('./db');
 const { DB_ERROR_UNIQUE_VIOLATION } = require('./constants');
 
 module.exports = async (req, res, next) => {
   try {
-    const hashedPassword = await encrypt(req.body.password);
-
     try {
+      const hashedPassword = await encrypt(req.body.password);
+
       const newUser = await db('users')
         .insert({
           username: req.body.username,
@@ -24,7 +21,7 @@ module.exports = async (req, res, next) => {
         token: authToken(newUser),
       });
     } catch (e) {
-      // handle unique constraint violation.
+      // Handle unique constraint violation.
       if (e.code === DB_ERROR_UNIQUE_VIOLATION) {
         const existingUsers = await db('users')
           .select('username', 'email')
@@ -33,9 +30,13 @@ module.exports = async (req, res, next) => {
 
         if (existingUsers) {
           const fields = getSharedProperties(['email', 'username'], existingUsers, req.body);
-          throw new UniqueViolationError(fields);
+
+          return res.status(409).send({
+            error: fields.map(field => `That ${field} is already in use.`),
+          });
         }
       } else {
+        // Something else went wrong.
         throw e;
       }
     }

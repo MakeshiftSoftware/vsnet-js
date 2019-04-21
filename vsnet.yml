@@ -1,0 +1,13 @@
+database:
+  name: "default"
+  host: "localhost"
+  port: 5432
+  address:
+    - "root@localhost:26257"
+    - "another"
+  pool_min: 2
+  pool_max: 10
+game:
+  rooms: true
+  tick_rate: 20
+  max_players_per_room: 8

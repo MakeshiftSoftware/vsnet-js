@@ -11,12 +11,6 @@ build:
       '***/*.js': .
     docker:
       dockerfile: Dockerfile.dev
-  - image: orchestrator
-    context: orchestrator
-    sync:
-      '***/*.js': .
-    docker:
-      dockerfile: Dockerfile.dev
   - image: matchmaker
     context: matchmaker
     sync:
@@ -28,7 +22,5 @@ deploy:
     manifests:
     - api/kubernetes/service.yml
     - api/kubernetes/deployment.yml
-    - orchestrator/kubernetes/service.yml
-    - orchestrator/kubernetes/deployment.yml
     - matchmaker/kubernetes/service.yml
     - matchmaker/kubernetes/deployment.yml
